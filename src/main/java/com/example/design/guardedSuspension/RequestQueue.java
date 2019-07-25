@@ -1,24 +1,24 @@
 package com.example.design.guardedSuspension;
 
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class RequestQueue {
-	private final Queue<Request> queue = new LinkedList<Request>();
+	private final BlockingQueue<Request> queue = new LinkedBlockingQueue<Request>();
 
-	public synchronized Request getRequest() {
-		while (queue.peek() == null) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-			}
+	public Request getRequest() {
+		Request req = null;
+		try {
+			req = queue.take();
+		} catch (InterruptedException e) {
 		}
-		return queue.remove();
+		return req;
 	}
 
-	public synchronized void putRequest(Request request) {
-		queue.offer(request);
-		notifyAll();
+	public void putRequest(Request request) {
+		try {
+			queue.put(request);
+		} catch (InterruptedException e) {
+		}
 	}
 }
-
