@@ -2,6 +2,9 @@ package com.example.design.activeObject;
 
 import com.example.design.activeObject.util.ActiveObject;
 
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.RejectedExecutionException;
+
 public class DisplayClientThread extends Thread {
     private final ActiveObject activeObject;
 
@@ -18,7 +21,12 @@ public class DisplayClientThread extends Thread {
                 activeObject.displayString(string);
                 Thread.sleep(200);
             }
+        } catch (RejectedExecutionException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
+        } catch (CancellationException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
         } catch (InterruptedException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
         }
     }
 }

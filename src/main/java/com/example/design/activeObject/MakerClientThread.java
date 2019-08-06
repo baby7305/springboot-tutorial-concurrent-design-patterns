@@ -1,7 +1,11 @@
 package com.example.design.activeObject;
 
 import com.example.design.activeObject.util.ActiveObject;
-import com.example.design.activeObject.util.Result;
+
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
 
 public class MakerClientThread extends Thread {
     private final ActiveObject activeObject;
@@ -17,12 +21,19 @@ public class MakerClientThread extends Thread {
         try {
             for (int i = 0; true; i++) {
                 // 有返回值的调用
-                Result<String> result = activeObject.makeString(i, fillchar);
+                Future<String> future = activeObject.makeString(i, fillchar);
                 Thread.sleep(10);
-                String value = result.getResultValue();
+                String value = future.get();
                 System.out.println(Thread.currentThread().getName() + ": value = " + value);
             }
+        } catch (RejectedExecutionException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
+        } catch (CancellationException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
+        } catch (ExecutionException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
         } catch (InterruptedException e) {
+            System.out.println(Thread.currentThread().getName() + ":" + e);
         }
     }
 }
