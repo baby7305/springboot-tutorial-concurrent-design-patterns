@@ -24,4 +24,10 @@ class Proxy implements ActiveObject {
         scheduler.invoke(new AddRequest(servant, future, x, y));
         return future;
     }
+
+    public Result<String> search(String word) {
+        FutureResult<String> future = new FutureResult<String>();
+        scheduler.invoke(new SearchRequest(servant, future, word));
+        return future;
+    }
 }
