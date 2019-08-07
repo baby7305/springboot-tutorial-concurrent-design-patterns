@@ -9,5 +9,7 @@ public interface ActiveObject {
 
     public abstract Future<String> add(String x, String y);
 
+    public abstract void search(String word, Display display);
+
     public abstract void shutdown();
 }

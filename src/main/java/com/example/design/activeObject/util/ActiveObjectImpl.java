@@ -65,5 +65,24 @@ class ActiveObjectImpl implements ActiveObject {
         // 发出请求
         return service.submit(new AddRequest());
     }
+
+    public void search(final String word, final Display display) {
+        class SearchRequest implements Runnable {
+            public void run() {
+                System.out.print("search(" + word + ")");
+                for (int i = 0; i < 50; i++) {
+                    System.out.print(".");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                System.out.println("found.");
+                String url = "http://somewhere/" + word + ".html"; // dummy URL
+                display.display("word = " + word + ", URL = " + url);
+            }
+        }
+        service.execute(new SearchRequest());
+    }
 }
 
