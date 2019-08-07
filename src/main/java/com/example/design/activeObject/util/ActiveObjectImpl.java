@@ -1,5 +1,6 @@
 package com.example.design.activeObject.util;
 
+import java.math.BigInteger;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,4 +50,20 @@ class ActiveObjectImpl implements ActiveObject {
         // 发出请求
         service.execute(new DisplayStringRequest());
     }
+
+    // 有返回值的调用
+    public Future<String> add(final String x, final String y) {
+        // 请求
+        class AddRequest implements Callable<String> {
+            public String call() throws NumberFormatException {
+                BigInteger bigX = new BigInteger(x);
+                BigInteger bigY = new BigInteger(y);
+                BigInteger bigZ = bigX.add(bigY);
+                return bigZ.toString();
+            }
+        }
+        // 发出请求
+        return service.submit(new AddRequest());
+    }
 }
+

@@ -7,5 +7,7 @@ public interface ActiveObject {
 
     public abstract void displayString(String string);
 
+    public abstract Future<String> add(String x, String y);
+
     public abstract void shutdown();
 }

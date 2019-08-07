@@ -10,6 +10,7 @@ public class Main {
             new MakerClientThread("Alice", activeObject).start();
             new MakerClientThread("Bobby", activeObject).start();
             new DisplayClientThread("Chris", activeObject).start();
+            new AddClientThread("Diana", activeObject).start();
             Thread.sleep(5000);
         } catch (InterruptedException e) {
         } finally {
