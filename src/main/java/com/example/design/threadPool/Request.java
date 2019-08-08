@@ -2,7 +2,7 @@ package com.example.design.threadPool;
 
 import java.util.Random;
 
-public class Request {
+public class Request implements Runnable {
     private final String name; // 委托者
     private final int number;  // 请求的编号
     private static final Random random = new Random();
@@ -12,7 +12,7 @@ public class Request {
         this.number = number;
     }
 
-    public void execute() {
+    public void run() {
         System.out.println(Thread.currentThread().getName() + " executes " + this);
         try {
             Thread.sleep(random.nextInt(1000));

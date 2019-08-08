@@ -1,12 +1,23 @@
 package com.example.design.threadPool;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+
 public class Main {
     public static void main(String[] args) {
-        Channel channel = new Channel(5);   // 工人线程的个数
-        channel.startWorkers();
-        new ClientThread("Alice", channel).start();
-        new ClientThread("Bobby", channel).start();
-        new ClientThread("Chris", channel).start();
+        ExecutorService executorService = Executors.newFixedThreadPool(5); //工人线程的个数
+
+        try {
+            new ClientThread("Alice", executorService).start();
+            new ClientThread("Bobby", executorService).start();
+            new ClientThread("Chris", executorService).start();
+
+            // 等待大约5秒
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+        } finally {
+            executorService.shutdown();
+        }
     }
 }
 
