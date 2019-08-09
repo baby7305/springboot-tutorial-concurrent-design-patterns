@@ -2,6 +2,7 @@ package com.example.design.threadPool;
 
 public class WorkerThread extends Thread {
     private final Channel channel;
+    private volatile boolean terminated = false;
 
     public WorkerThread(String name, Channel channel) {
         super(name);
@@ -9,10 +10,24 @@ public class WorkerThread extends Thread {
     }
 
     public void run() {
-        while (true) {
-            Request request = channel.takeRequest();
-            request.execute();
+        try {
+            while (!terminated) {
+                try {
+                    Request request = channel.takeRequest();
+                    request.execute();
+                } catch (InterruptedException e) {
+                    terminated = true;
+                }
+            }
+        } finally {
+            System.out.println(Thread.currentThread().getName() + " is terminated.");
         }
     }
+
+    public void stopThread() {
+        terminated = true;
+        interrupt();
+    }
 }
+
 
