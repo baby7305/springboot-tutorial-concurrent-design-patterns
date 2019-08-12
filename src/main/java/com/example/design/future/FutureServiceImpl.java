@@ -30,4 +30,15 @@ public class FutureServiceImpl<IN, OUT> implements FutureService<IN, OUT> {
 
         return future;
     }
+
+    @Override
+    public Future<OUT> submit(Task<IN, OUT> task, IN input) {
+        final FutureTask<OUT> future = new FutureTask<>();
+        new Thread(() -> {
+            OUT result = task.get(input);
+            //任务执行结束之后，将真实的结果通过finish方法传递给future
+            future.finish(result);
+        }, getNextName()).start();
+        return future;
+    }
 }
