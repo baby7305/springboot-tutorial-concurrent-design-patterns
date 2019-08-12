@@ -41,4 +41,19 @@ public class FutureServiceImpl<IN, OUT> implements FutureService<IN, OUT> {
         }, getNextName()).start();
         return future;
     }
+
+    //增加回调接口Callback，当任务执行结束之后，Callback会得到执行
+    @Override
+    public Future<OUT> submit(Task<IN, OUT> task, IN input, Callback<OUT> callback) {
+        final FutureTask<OUT> future = new FutureTask<>();
+        new Thread(() -> {
+            OUT result = task.get(input);
+            future.finish(result);
+            //
+            if (null != callback) {
+                callback.call(result);
+            }
+        }, getNextName()).start();
+        return future;
+    }
 }

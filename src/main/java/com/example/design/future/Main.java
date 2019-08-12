@@ -15,8 +15,6 @@ public class Main {
                 e.printStackTrace();
             }
             return input.length();
-        }, "Hello");
-        //get方法会使当前线程进入阻塞，最终会返回计算的结果
-        System.out.println(future.get());
+        }, "Hello", System.out::println);
     }
 }
