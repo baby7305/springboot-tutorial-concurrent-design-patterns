@@ -9,11 +9,11 @@ public class Main {
 
         Content content1 = Retriever.retrieve("http://www.baidu.com/");
         Content content2 = Retriever.retrieve("http://www.tencent.com/");
-        Content content3 = Retriever.retrieve("http://www.hyuki.com/");
+        Content content3 = Retriever.retrieve("http://www.taobao.com/");
 
         saveToFile("baidu.html", content1);
         saveToFile("tencent.html", content2);
-        saveToFile("hyuki.html", content3);
+        saveToFile("taobao.html", content3);
 
         long end = System.currentTimeMillis();
 
