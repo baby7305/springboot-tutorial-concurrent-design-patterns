@@ -5,11 +5,13 @@ public class Host {
 
     public void request(final int count, final char c) {
         System.out.println("    request(" + count + ", " + c + ") BEGIN");
-        new Thread() {
-            public void run() {
-                helper.handle(count, c);
-            }
-        }.start();
+        new Thread(
+                new Runnable() {
+                    public void run() {
+                        helper.handle(count, c);
+                    }
+                }
+        ).start();
         System.out.println("    request(" + count + ", " + c + ") END");
     }
 }
