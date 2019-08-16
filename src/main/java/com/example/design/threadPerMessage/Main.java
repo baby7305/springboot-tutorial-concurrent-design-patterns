@@ -1,21 +1,21 @@
 package com.example.design.threadPerMessage;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("main BEGIN");
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
         Host host = new Host(
-                executorService
+                scheduledExecutorService
         );
         try {
             host.request(10, 'A');
             host.request(20, 'B');
             host.request(30, 'C');
         } finally {
-            executorService.shutdown();
+            scheduledExecutorService.shutdown();
             System.out.println("main END");
         }
     }
