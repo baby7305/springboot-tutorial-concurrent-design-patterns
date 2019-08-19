@@ -1,23 +1,36 @@
 package com.example.design.gui;
 
 public class Service {
-    public static void service() {
-        new Thread() {
+    private static Thread worker = null;
+
+    public static synchronized void service() {
+        // 当存在执行中的处理时，使用interrupt将其取消
+        if (worker != null && worker.isAlive()) {
+            worker.interrupt();
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+            }
+            worker = null;
+        }
+        System.out.print("service");
+        worker = new Thread() {
             public void run() {
                 doService();
             }
-        }.start();
+        };
+        worker.start();
     }
 
     private static void doService() {
-        System.out.print("service");
-        for (int i = 0; i < 50; i++) {
-            System.out.print(".");
-            try {
+        try {
+            for (int i = 0; i < 50; i++) {
+                System.out.print(".");
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
             }
+            System.out.println("done.");
+        } catch (InterruptedException e) {
+            System.out.println("cancelled.");
         }
-        System.out.println("done.");
     }
 }
