@@ -9,7 +9,7 @@ public class Service {
         }.start();
     }
 
-    private static void doService() {
+    private static synchronized void doService() {
         System.out.print("service");
         for (int i = 0; i < 50; i++) {
             System.out.print(".");
