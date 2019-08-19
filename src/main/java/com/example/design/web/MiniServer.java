@@ -17,13 +17,17 @@ public class MiniServer {
         try {
             while (true) {
                 System.out.println("Accepting...");
-                Socket clientSocket = serverSocket.accept();
+                final Socket clientSocket = serverSocket.accept();
                 System.out.println("Connected to " + clientSocket);
-                try {
-                    Service.service(clientSocket);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                new Thread() {
+                    public void run() {
+                        try {
+                            Service.service(clientSocket);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
