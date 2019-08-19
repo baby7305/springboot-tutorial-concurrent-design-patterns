@@ -2,6 +2,14 @@ package com.example.design.gui;
 
 public class Service {
     public static void service() {
+        new Thread() {
+            public void run() {
+                doService();
+            }
+        }.start();
+    }
+
+    private static void doService() {
         System.out.print("service");
         for (int i = 0; i < 50; i++) {
             System.out.print(".");
